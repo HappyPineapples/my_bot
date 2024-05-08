@@ -1,0 +1,56 @@
+teleop_twist_joy_node:
+  ros__parameters:
+    
+    require_enable_button: false
+    # Whether to require the enable button for enabling movement.
+    
+    # enable_button: 2
+    # Joystick button to enable regular-speed movement.
+    
+    # enable_turbo_button: 5
+    # Joystick button to enable high-speed movement (disabled when -1).
+    
+    # axis_linear.<axis>
+    # Joystick axis to use for linear movement control.
+    axis_linear.x: 1
+    # axis_linear.y: -1
+    # axis_linear.z: -1
+
+    # scale_linear.<axis>
+    # Scale to apply to joystick linear axis for regular-speed movement.
+    scale_linear.x: 0.7
+    # scale_linear.y: 0.0
+    # scale_linear.z: 0.0
+    
+    # scale_linear_turbo.<axis>
+    # Scale to apply to joystick linear axis for high-speed movement.
+    scale_linear_turbo.x: 1.5
+    # scale_linear_turbo.y: 0.0
+    # scale_linear_turbo.z: 0.0
+    
+    # axis_angular.<axis>
+    # Joystick axis to use for angular movement control.
+    axis_angular.yaw: 0
+    # axis_angular.pitch: -1
+    # axis_angular.roll: -1
+    
+    # scale_angular.<axis>
+    # Scale to apply to joystick angular axis.
+    scale_angular.yaw: 0.4
+    # scale_angular.pitch: 0.0
+    # scale_angular.roll: 0.0
+
+    # scale_angular_turbo.<axis>
+    # Scale to apply to joystick angular axis for high-speed movement.
+    # scale_angular_turbo.yaw: 1.0
+    # scale_angular_turbo.pitch: 0.0
+    # scale_angular_turbo.roll: 0.0
+    
+    inverted_reverse: false
+    # Whether to invert turning left-right while reversing (useful for differential wheeled robots.
+    
+    publish_stamped_twist: false
+    # Whether to publish geometry_msgs/msg/TwistStamped for command velocity messages.
+    
+    frame: 'teleop_twist_joy'
+    # Frame name used for the header of TwistStamped messages.

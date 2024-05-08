@@ -33,8 +33,18 @@ def generate_launch_description():
         output='screen'
     )
 
+    joy = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory('teleop_twist_joy'),'launch', 'teleop-launch.py'
+        )]), launch_arguments={
+            'joy_config': 'xbox', 
+            # 'config_filepath': './config/joy_config.yaml'
+        }.items(),
+    )
+
     return LaunchDescription([
         rsp,
         gazebo,
-        spawn_entity
+        spawn_entity,
+        joy
     ])
