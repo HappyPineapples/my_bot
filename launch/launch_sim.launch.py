@@ -82,27 +82,22 @@ def generate_launch_description():
 
     joystick = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('teleop_twist_joy'),'launch', 'teleop-launch.py'
-        )]), launch_arguments={
-            'joy_config': 'xbox', 
-
-            # 'config_filepath': './config/joy_config.yaml'
-        }.items()
+            get_package_share_directory('my_bot'),'launch', 'joystick.launch.py'
+        )])
     )
 
-    remapped_joystick = GroupAction(
-        actions=[
-            SetRemap(src='/cmd_vel',dst='/diff_cont/cmd_vel_unstamped'),
-            joystick
-        ]
-    )
+    # remapped_joystick = GroupAction(
+    #     actions=[
+    #         SetRemap(src='/cmd_vel',dst='/diff_cont/cmd_vel_unstamped'),
+    #         joystick
+    #     ]
+    # )
 
     return LaunchDescription([
         rsp,
         gazebo,
         spawn_entity,
-        # joystick,
-        remapped_joystick,
+        joystick,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner
     ])
