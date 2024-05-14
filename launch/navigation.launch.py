@@ -16,40 +16,17 @@ def generate_launch_description():
 
     package_name = 'my_bot'
 
-    slam_params_filename = os.path.join(
-        get_package_share_directory(package_name),
-        'config',
-        'mapper_params_online_async.yaml'
-    )
-
-    # twist_mux_params_filename = os.path.join(
-    #     get_package_share_directory(package_name),
-    #     'config',
-    #     'twist_mux.yaml'
-    # )
-
     slam = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('slam_toolbox'), 'launch', 'online_async_launch.py'
-        )]), launch_arguments={
-            'params_file': slam_params_filename,
-            'use_sim_time': use_sim_time,
-        }.items()
+            get_package_share_directory(package_name), 'launch', 'online_async_launch.py'
+        )]), launch_arguments={'use_sim_time': use_sim_time}.items()
     )
 
     navigation = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('nav2_bringup'), 'launch', 'navigation_launch.py'
+            get_package_share_directory(package_name), 'launch', 'nav2_launch.py'
         )]), launch_arguments={'use_sim_time': use_sim_time}.items()
     )
-
-    # twist_mux = Node(
-    #     package='twist_mux',
-    #     executable='twist_mux',
-    #     parameters=[twist_mux_params_filename],
-    #     remappings=[('cmd_vel_out', 'diff_cont/cmd_vel_unstamped')]
-    # )
-
 
     # Launch!
     return LaunchDescription([
@@ -59,5 +36,4 @@ def generate_launch_description():
             description='Use sim time if true'),
         slam,
         navigation,
-        # twist_mux
     ])

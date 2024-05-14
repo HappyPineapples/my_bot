@@ -3,12 +3,11 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, GroupAction
+from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import RegisterEventHandler
 from launch.event_handlers import OnProcessExit
 
-from launch_ros.actions import SetRemap
 from launch_ros.actions import Node
 
 def generate_launch_description():
@@ -21,17 +20,11 @@ def generate_launch_description():
         'gazebo_params.yaml'
     )
 
-    joystick_config_filename = os.path.join(
-        get_package_share_directory(package_name),
-        'config',
-        'joy_config.yaml'
-    )
-
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory(package_name),'launch','rsp.launch.py'
         )]), launch_arguments={
-            'use_sim_tim': 'true',
+            'use_sim_time': 'true',
             'use_ros2_control': 'true',
             'use_depth_camera': 'false'
         }.items()
@@ -46,10 +39,8 @@ def generate_launch_description():
     spawn_entity = Node(
         package='gazebo_ros',
         executable='spawn_entity.py',
-        arguments=[
-            '-topic', 'robot_description',
-            '-entity', 'my_bot'
-        ],
+        arguments=['-topic', 'robot_description',
+                   '-entity', 'my_bot'],
         output='screen'
     )
 
@@ -83,21 +74,14 @@ def generate_launch_description():
     joystick = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('my_bot'),'launch', 'joystick.launch.py'
-        )])
+        )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
-
-    # remapped_joystick = GroupAction(
-    #     actions=[
-    #         SetRemap(src='/cmd_vel',dst='/diff_cont/cmd_vel_unstamped'),
-    #         joystick
-    #     ]
-    # )
 
     return LaunchDescription([
         rsp,
+        joystick,
         gazebo,
         spawn_entity,
-        joystick,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner
     ])
